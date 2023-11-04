@@ -8,29 +8,18 @@ bool saw_key, saw_colon;
 /* Rules section - pattern and action */
 /* Recognizing compound and simple statements */
 %%
-db_.* {
-        cout << "Key: " << yytext << endl;
-        saw_key = true;
-    }
-[ ]+:[ ]+ { 
-        if (!saw_key) {}
-        else {
-            cout << "Found colon" << endl;
-            saw_colon = true;
-        }
-    }
-
+"</".[a-zA-Z]+.[>] {cout << "Ending tag: " << yytext << endl;}
+[<].[a-zA-Z]+ {cout << "Starting tag: " << yytext << endl;}
+[a-zA-Z]+.[=] {cout << "Attr: " << yytext << endl;}
+["].[a-zA-Z ]+.["] {cout << "Value: " << yytext << endl;}
+[>] {cout << "Arrow" << endl;}
 . ;
 %%
 
 int main() {
-    cout << "Enter: " << endl;
-    //while(yylex());
     yylex();
-    return 1;
 }
 
 int yywrap() {
-    cout << "Done" << endl;
     return 1;
 }
